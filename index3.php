@@ -2,10 +2,24 @@
 
 include_once 'header.php';
 
-?>
+$id = $_GET['id'];
+$id = (int)$id;
+$sql = "SELECT * FROM products WHERE id = '$id'";
+$result = $conn->query($sql);
+$product = mysqli_fetch_assoc($result);
 
+$brand_num = $product['brand'];
+$sql2 = "SELECT * FROM brand WHERE id = '$brand_num'";
+$brand_result = $conn->query($sql2);
+$brand = mysqli_fetch_assoc($brand_result);
+
+?>
+<head>
+    <!-- Custom CSS -->
+    <link href="css/half-slider.css" rel="stylesheet">
+</head>
     <!-- Page Content -->
-    <div class="container" style="margin-top: 60px;">
+    <div class="container" style="margin-top: 70px;">
 
         <div class="row">
 
@@ -23,37 +37,28 @@ include_once 'header.php';
             <div class="col-md-9">
 
                 <div class="thumbnail">
-                    <img class="img-responsive" src="images/iwp-800x300.jpg" alt="">
+                    <img class="img-responsive" src="<?= $product['image']; ?>" alt="">
                     <div class="caption-full">
-                        <h4 class="pull-right">299,99kn</h4>
-                        <h4><a href="#">Impact Whey Protein</a>
-                        </h4>
-                        <p>Impact Whey Protein® je proizveden korištenjem prvoklasnog koncentrata proteina sirutke i sadrži 82 % proteinskog sastava. Ako tražite proizvod omjera vrhunske kvalitete i vrijednosti te izvrsnog okusa, na pravom ste mjestu.</p>
-                        <p>Impact Whey Protein®  je bogat izvor koncentrata proteina sirutke iz vegetarijanskog slatkog sira, direktno od vodećih svjetskih proizvođača sirutke. Time što sadrži najvišu biološku vrijednost (BV), višu od bilo kojeg drugog proteina, koncentrat proteina sirutke ima visoku razinu esencijalnih i ne - esencijalnih aminokiselina. Proizvodni proces koristi jedinstvenu kombinaciju tehnologije membranske filtracije i sušenja pri niskoj temperaturi i pritisku. To osigurava precizno odvajanje i koncentraciju proteina te očuvanje prirodne funkcije i visokih prehrambenih vrijednosti čime jamčimo vrhunsku kvalitetu koncentrata proteina sirutke.</p>
-                        <p>Naš Impact Whey Protein® pruža preko 82 g proteina na 100 g praha (suha osnova), sadrži nizak udio laktoze i bogat je kalcijem. Izvrstan je izvor esencijalnih aminokiselina i sadrži najviše proporcije BCAA koje možemo naći u prirodnom proteinu. Sljedivost je ključni dio našeg procesa praćenja kvalitete, a kako bismo ga održali na razini, surađujemo sa vodećim svjetskim proizvođačima sirutke, što osigurava kompletnost znanja i povjerenje u proizvodni proces.</p>
-                        <p>Frakcije proteina su: 44 % Beta lactoglobulin, 17 % Alpha lactalbumin, 1.5 % Bovine serum albumin, 8 % Immunoglobulin G, 0.5 % Lactoferrin, 26 % Glycomacropeptide.</p>
-                        <p><strong>Ključne prednosti:</strong></p>
-                        <ul>
-                            <li><p>Bogat ključnim aminokiselinama</p></li>
-                            <li><p>Doprinosi normalnoj funkciji mišićnog i koštanog sustava</p></li>
-                            <li><p>Smatra se u potpunosti kompletnim proteinom</p></li>
-                        </ul>
-                        <p><strong>Upotreba:</strong> Umiješajte 1 serviranje (25g) u 250 - 350 ml vode ili malomasnog mlijeka. Koristiti 1-3 puta dnevno ili prema potrebi.</p>
-                        <p>Preporučene dnevne doze ne smiju se prekoračiti. Dodatak prehrani nije nadomjestak ili zamjena uravnoteženoj prehrani.</p>
+                        <h2 class="pull-right">299,99kn</h2>
+                        <h2 style="color: blue;"><strong><?= $product['title']; ?></strong></h2>
+                        <h3><?= $brand['brand']; ?></h3><br>
+                        <?= $product['description']; ?><br>
                     </div>
                     <div class="ratings">
-                        <p class="pull-right">3 reviews</p>
-                        <p>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            4.0 stars
+                        <p class="pull-right"><?= $product['reviews']; ?> reviews</p>
+                        <p><?php $num_stars = $product['stars']; ?>
+                            <?php for ($x = 0; $x < $num_stars; $x++) : ?>
+                                <span class="glyphicon glyphicon-star"></span>
+                            <?php endfor; ?>
+                            <?php for ($x = 0; $x < (5 - $num_stars); $x++) : ?>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            <?php endfor; ?>
                         </p>
                     </div>
                 </div>
 
+
+                <!-- REVIEWS -->
                 <div class="well">
 
                     <div class="text-right">

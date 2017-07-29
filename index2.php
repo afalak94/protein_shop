@@ -1,28 +1,35 @@
 <?php
 
 include_once 'header.php';
+$sql = "SELECT * FROM categories WHERE parent = 0";
+$pquery = $conn->query($sql); 
 
+$sql = "SELECT * FROM products WHERE featured = 1";
+$featured = $conn->query($sql);
 ?>
-
+<head>
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+</head>
     <!-- Page Content -->
-    <div class="container" style="margin-top: 60px;">
+    <div class="container">
 
         <div class="row">
 
             <div class="col-md-3">
                 <p class="lead">Protein Shop</p>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Proteini</a>
-                    <a href="#" class="list-group-item">Vitamini</a>
-                    <a href="#" class="list-group-item">Povećanje mičićne mase</a>
-                    <a href="#" class="list-group-item">Odjeća i obuća</a>
-                    <a href="#" class="list-group-item">Fitness sprave i oprema</a>
+
+                    <?php while($parent = mysqli_fetch_assoc($pquery)) : ?>
+                    <a href="#" class="list-group-item"><?php echo $parent['category']; ?></a>
+                    <?php endwhile; ?>
+
                 </div>
             </div>
 
             <div class="col-md-9">
 
-                <div class="row carousel-holder">
+                <div class="row carousel-holder" style="margin-bottom: 10px;">
 
                     <div class="col-md-12">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -53,138 +60,34 @@ include_once 'header.php';
                             </a>
                         </div>
                     </div>
-
                 </div>
 
+<!-- featured products that show up on page start -->
                 <div class="row">
 
+                    <?php while($product = mysqli_fetch_assoc($featured)) : ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <img src="images/impact-whey.jpg" alt="">
+                            <img src="<?= $product['image']; ?>" alt="">
                             <div class="caption">
-                                <h4 class="pull-right">299,99kn</h4><br>
-                                <h4><a href="index3.php">Impact Whey Protein</a></h4>
+                                <h4 class="pull-right"><?= $product['price']; ?>kn</h4><br>
+                                <h4><a href="index3.php?id=<?= $product['id']; ?>"><?= $product['title']; ?></a></h4>
                             </div>
-                            <div class="ratings">
-                                <p class="pull-right">15 reviews</p>
+                            <div class="ratings"><?php $num_stars = $product['stars']; ?>
+                                <p class="pull-right"><?= $product['reviews']; ?> reviews</p>
                                 <p>
+                                <?php for ($x = 0; $x < $num_stars; $x++) : ?>
                                     <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                <?php endfor; ?>
+                                <?php for ($x = 0; $x < (5 - $num_stars); $x++) : ?>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                <?php endfor; ?>
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="images/hydrolyzed_whey_2kg-scitec-500x500.jpg" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">499,99kn</h4><br>
-                                <h4><a href="#">Hidrolized Whey</a></h4>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">12 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="images/qnt.jpg" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">199,99kn</h4><br>
-                                <h4><a href="#">Delicious Whey Protein</a></h4>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">31 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="images/protein-whey.jpg" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">399,99kn</h4><br>
-                                <h4><a href="#">Protein Whey</a>
-                                </h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">6 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="images/syntha.jpg" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">449,99kn</h4><br>
-                                <h4><a href="#">Syntha 6 Edge</a>
-                                </h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">18 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="images/protein-whey.jpg" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">399,99kn</h4><br>
-                                <h4><a href="#">Protein Whey</a>
-                                </h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">6 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endwhile; ?>
 
                 </div>
 

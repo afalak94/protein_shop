@@ -4,7 +4,10 @@ include_once 'header.php';
 
 ?>
 
-
+<head>
+    <!-- Custom CSS -->
+    <link href="css/half-slider.css" rel="stylesheet">
+</head>
     <!-- Half Page Image Background Carousel Header -->
     <header id="myCarousel" class="carousel slide" style="margin-top: 50px;">
         <!-- Indicators -->
