@@ -1,7 +1,6 @@
 <?php
 
 require_once 'includes/dbh.php';
-session_start();
 
 ?>
 

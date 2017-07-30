@@ -49,6 +49,28 @@ $brand = mysqli_fetch_assoc($brand_result);
                             <?php endfor; ?>
                         </p>
                     </div>
+
+                    <!-- shopping cart -->
+                    <form action="add_cart.php" method="post" id="add_product_form">
+                        <input type="hidden" name="product_id" value="<?= $id; ?>">
+                        <div class="form-group">
+                            <div class="col-xs-3"><label for="quantity">Quantity:</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity">
+                            </div><br><div class="col-xs-9">&nbsp;</div><br>
+                        </div>
+                        <div class="form-group"><br>
+                            <label for="size">Size:</label>
+                            <select name="size" id="size" class="form-control">
+                                <option value="<?=$product['size1'];?>"><?= $product['size1']; ?></option>
+                                <option value="<?=$product['size2'];?>"><?= $product['size2']; ?></option>
+                                <option value="<?=$product['size3'];?>"><?= $product['size3']; ?></option>
+                            </select>
+                        </div>
+                    </form>
+
+                    <span id="modal_errors" class="bg-danger"></span>
+                    <button class="btn btn-warning" onclick="add_to_cart();return false;"><span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart</button>
+
                 </div>
 
 
@@ -135,6 +157,30 @@ $brand = mysqli_fetch_assoc($brand_result);
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
+    <script>
+        function add_to_cart(){
+            jQuery('#modal_errors').html("");
+            var size = jQuery('#size').val();
+            var quantity = jQuery('#quantity').val();
+            var error = '';
+            var data = jQuery('#add_product_form').serialize();
+            if (quantity == '' || quantity == 0) {
+                error += '<p class="text-danger text-center">You must choose a quantity.</p>';
+                jQuery('#modal_errors').html(error);
+                return;
+            } else {
+                jQuery.ajax({
+                    url: '/masa/add_cart.php',
+                    method: 'post',
+                    data: data,
+                    success: function(){
+                        location.reload();
+                    },
+                    error: function(){alert("something went wrong");}
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>
