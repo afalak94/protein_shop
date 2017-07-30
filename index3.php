@@ -25,13 +25,7 @@ $brand = mysqli_fetch_assoc($brand_result);
 
             <div class="col-md-3">
                 <p class="lead">Protein Shop</p>
-                <div class="list-group">
-                    <a href="#" class="list-group-item">Proteini</a>
-                    <a href="#" class="list-group-item">Vitamini</a>
-                    <a href="#" class="list-group-item">Povećanje mičićne mase</a>
-                    <a href="#" class="list-group-item">Odjeća i obuća</a>
-                    <a href="#" class="list-group-item">Fitness sprave i oprema</a>
-                </div>
+               
             </div>
 
             <div class="col-md-9">

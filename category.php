@@ -4,8 +4,15 @@ include_once 'header.php';
 $sql = "SELECT * FROM categories WHERE parent = 0";
 $pquery = $conn->query($sql); 
 
-$sql = "SELECT * FROM products WHERE featured = 1";
-$featured = $conn->query($sql);
+if (isset($_GET['cat'])) {
+    $cat_id = $_GET['cat'];
+} else {
+    $cat_id = '';
+}
+
+$sql = "SELECT * FROM products WHERE categories = '$cat_id'";
+$productQ = $conn->query($sql);
+
 ?>
 <head>
     <!-- Custom CSS -->
@@ -65,10 +72,10 @@ $featured = $conn->query($sql);
                     </div>
                 </div>
 
-<!-- featured products that show up on page start -->
+<!-- category products -->
                 <div class="row">
 
-                    <?php while($product = mysqli_fetch_assoc($featured)) : ?>
+                    <?php while($product = mysqli_fetch_assoc($productQ)) : ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
                             <img src="<?= $product['image']; ?>" alt="">
