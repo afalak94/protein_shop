@@ -15,6 +15,7 @@ if (mysqli_connect_errno()) {
 
 session_start();
 require_once 'config.php';
+require 'vendor/autoload.php';
 
 $cart_id = '';
 if (isset($_COOKIE[CART_COOKIE])) {

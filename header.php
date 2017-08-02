@@ -15,6 +15,7 @@ require_once 'includes/dbh.php';
     <meta name="description" content="">
     <meta name="author" content="">
     <script src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="https:///js.stripe.com/v2/"></script>
 
     <title>Prvo Masa</title>
 
@@ -58,12 +59,16 @@ require_once 'includes/dbh.php';
                     </li>
                     <li><a href="signup.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 </ul>
-                <div class="nav-login" style="float: right; padding-top: 10px;">
+                <div class="nav-login" style="padding-top: 12px; float: right;">
 
                     <?php
                         if (isset($_SESSION['u_id'])) {
                             echo '
-                                <form action="includes/logout.inc.php" method="POST">
+                                <ul style="float: right; padding-top: 2px;">
+                                <li><a href="cart.php"><span class="glyphicon glyphicon-shopping-cart"></span> My Cart</a></li>
+                                </ul>
+
+                                <form action="includes/logout.inc.php" method="POST" style="float: right;">
                                     <button type="submit" name="submit"><span class="glyphicon glyphicon-log-in"></span> ' . $_SESSION['u_uid'] . ' Logout</button>
                                 </form>';
                         }

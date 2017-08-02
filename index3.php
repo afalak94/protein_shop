@@ -158,6 +158,7 @@ $brand = mysqli_fetch_assoc($brand_result);
     <script src="js/bootstrap.min.js"></script>
 
     <script>
+
         function add_to_cart(){
             jQuery('#modal_errors').html("");
             var size = jQuery('#size').val();
