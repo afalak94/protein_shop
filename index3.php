@@ -13,10 +13,39 @@ $sql2 = "SELECT * FROM brand WHERE id = '$brand_num'";
 $brand_result = $conn->query($sql2);
 $brand = mysqli_fetch_assoc($brand_result);
 
+$sql3 = "SELECT * FROM comments WHERE product_id = '$id'";
+$comment_result = $conn->query($sql3);
+
+
 ?>
 <head>
     <!-- Custom CSS -->
     <link href="css/half-slider.css" rel="stylesheet">
+
+    <style type="text/css">
+    
+        .comment-box {
+        width: 650px;
+        padding: 20px;
+        margin-bottom: 4px;
+        background-color: #fff;
+        border-radius: 4px;
+        }
+
+        .comment-insert-text {
+            width: 100%;
+            margin-top: 10px;
+            height: 80px;
+        }
+
+    </style>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
 </head>
     <!-- Page Content -->
     <div class="container" style="margin-top: 70px;">
@@ -33,10 +62,10 @@ $brand = mysqli_fetch_assoc($brand_result);
                 <div class="thumbnail">
                     <img class="img-responsive" src="<?= $product['image']; ?>" alt="">
                     <div class="caption-full">
-                        <h2 class="pull-right">299,99kn</h2>
-                        <h2 style="color: blue;"><strong><?= $product['title']; ?></strong></h2>
-                        <h3><?= $brand['brand']; ?></h3><br>
-                        <?= $product['description']; ?><br>
+                        <h2 class="pull-right"><?= $product['price']; ?> kn</h2>
+                        <h2 style="color: blue;"><strong><?=$product['title'];?></strong></h2>
+                        <h3><?=$brand['brand'];?></h3><br>
+                        <?=$product['description'];?><br>
                     </div>
                     <div class="ratings">
                         <p class="pull-right"><?= $product['reviews']; ?> reviews</p>
@@ -76,55 +105,48 @@ $brand = mysqli_fetch_assoc($brand_result);
 
                 <!-- REVIEWS -->
                 <div class="well">
+                <form action="comment.php" method="POST">
 
-                    <div class="text-right">
-                        <a class="btn btn-success">Leave a Review</a>
+                    <div class="well">
+                         
+                        <textarea name="comment-post-text" class="comment-insert-text"></textarea>
+
+                        <input type="hidden" name="userId" value="<?=$_SESSION['u_uid'];?>">
+                        <input type="hidden" name="productId" value="<?=$id;?>">
+                        <input type="hidden" name="date" value="<?=date("Y-m-d");?>">
+                        <div class="col-xs-3"><label for="rating">Rating:</label>
+                        <input type="number" class="form-control" name="rating">
+                        </div>
+                        <div class="text-right">
+                            <button class="btn btn-success" type="submit" name="submit">Leave a Review</button>
+                        </div>
+                        <hr>
                     </div>
+                </form>
+                
+                
+
+                    <?php while($comments = mysqli_fetch_assoc($comment_result)): ?>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <p><?php $num_stars = $comments['rating']; ?>
+                                <?php for ($x = 0; $x < $num_stars; $x++) : ?>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <?php endfor; ?>
+                                <?php for ($x = 0; $x < (5 - $num_stars); $x++) : ?>
+                                <span class="glyphicon glyphicon-star-empty"> </span>
+                                <?php endfor; ?>
+
+                                <?= $comments['user_id']; ?></p>
+                                <span class="pull-right"><?= $comments['date']; ?></span>
+                                <p><?= $comments['comment']; ?></p>
+                            </div>
+                        </div>
+                        <hr>
+                    <?php endwhile; ?>
 
                     <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            Anonymous
-                            <span class="pull-right">10 days ago</span>
-                            <p>This product was great in terms of quality. I would definitely buy another!</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            Anonymous
-                            <span class="pull-right">12 days ago</span>
-                            <p>I've alredy ordered another one!</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            Anonymous
-                            <span class="pull-right">15 days ago</span>
-                            <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -150,12 +172,6 @@ $brand = mysqli_fetch_assoc($brand_result);
 
     </div>
     <!-- /.container -->
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
 
     <script>
 
