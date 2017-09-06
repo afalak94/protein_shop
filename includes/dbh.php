@@ -3,7 +3,7 @@
 $dbServername = "localhost";
 $dbUsername = "root";
 $dbPassword = "LgCz.962";
-$dbName = "protein_shop";
+$dbName = "protein_shop2";
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 $conn->set_charset('utf8');

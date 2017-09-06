@@ -34,10 +34,12 @@ d3.json("http://localhost:81/masa/js/flare.json", function(error, root) {
       .data(partition.nodes(root))
     .enter().append("path")
       .attr("d", arc)
-      .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      .style("fill", function(d) { return color((d.parent ? d : d.children).name); })
+      .style("border-color", "black")
+      .style("border-width", "thick")
       .on("click", click)
     .append("title")
-      .text(function(d) { return d.name + "\n" + formatNumber(d.value); });
+      .text(function(d) { return d.name; });
 });
 
 function click(d) {
